@@ -15,7 +15,7 @@ import com.android.sql.activity.R;
 
 import com.android.sql.fagment.FragmentData;
 import com.android.sql.fagment.FragmentToDo;
-import com.android.sql.fagment.FragmentMine;
+import com.android.sql.fagment.Fragment_My;
 
 // DataGenerator类是一个工具类，用于生成与应用界面相关的一些数据和视图，例如生成底部导航栏（Tab）相关的资源、Fragment实例等内容。
 public class DataGenerator {
@@ -44,7 +44,7 @@ public class DataGenerator {
         // 同样地，使用FragmentData的newInstance方法创建一个FragmentData的实例，传入相同的参数from和空字符串，
         // 将其存储在fragments数组的第二个位置，FragmentData可能用于展示数据统计相关的界面内容。
         fragments[1] = FragmentData.newInstance(from, "");
-        fragments[2] = FragmentMine.newInstance(from, "");
+        fragments[2] = Fragment_My.newInstance(from, "");
         return fragments;
     }
 

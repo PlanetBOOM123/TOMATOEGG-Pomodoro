@@ -27,8 +27,9 @@
 
     <com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:minHeight="30dp"
+        android:layout_weight="1"
         android:theme="@style/AppTheme">
 
         <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
@@ -48,15 +49,16 @@
         <!--        android:layout_alignParentBottom="true"-->
         <!--        tools:ignore="BottomAppBar" />-->
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="#ffffff"
-            android:minHeight="30dp"
-            android:visibility="visible"
-            app:tabIndicatorHeight="0dp"
-            app:tabTextColor="@color/LightSlateGray" />
     </com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#ffffff"
+        android:minHeight="30dp"
+        android:visibility="visible"
+        app:tabIndicatorHeight="0dp"
+        app:tabTextColor="@color/LightSlateGray" />
 </LinearLayout>
