@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.sql.activity">
-
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <application
         android:name="com.android.sql.MyApplication"
         android:allowBackup="true"
@@ -10,9 +10,11 @@
         android:roundIcon="@mipmap/logodanround"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.NoActionBar">
-
-
-        <activity android:name=".IntroductionActivity"
+        <activity
+            android:name=".FocusActivity"
+            android:exported="false" />
+        <activity
+            android:name=".IntroductionActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +31,7 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false"
-            android:label="登录"></activity>
+            android:label="登录" />
         <activity
             android:name=".MainActivity"
             android:exported="false"
@@ -38,8 +40,9 @@
             android:name=".LogonActivity"
             android:exported="false"
             android:label="注册" />
-        <activity android:name=".ClockActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".ClockActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

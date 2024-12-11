@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -45,14 +47,12 @@ public class FragmentData extends Fragment {
     // 这里也提示后续可能需要根据实际业务情况重命名变量以及改变参数类型。
     private String mParam1;
     private String mParam2;
-    // 用于存储任务（Task）对象的列表，这些任务对象可能包含了具体的任务相关信息，比如任务名称、时间等，
-    // 后续会用于处理和展示相关数据，比如在饼图中体现任务的占比等情况。
-    private List<Task> tasks;
-    // 用于存储用户的ID，可能用于从数据库等数据源中获取对应该用户的相关任务数据，是后续数据查询和处理的重要依据。
-    private int user_id;
-    // 定义一个PieView类型的变量，PieView应该是自定义的用于展示饼图的视图组件，
-    // 通过它可以将任务数据以饼图的形式展示出来，方便直观查看各项任务数据的占比情况等。
-    private PieView pieView;
+
+    private List<Task> tasks;// 用于存储任务（Task）对象的列表，这些任务对象可能包含了具体的任务相关信息，比如任务名称、时间等，// 后续会用于处理和展示相关数据，比如在饼图中体现任务的占比等情况。
+    private int user_id;    // 用于存储用户的ID，可能用于从数据库等数据源中获取对应该用户的相关任务数据，是后续数据查询和处理的重要依据。
+    private PieView pieView;// 定义一个PieView类型的变量，PieView应该是自定义的用于展示饼图的视图组件，// 通过它可以将任务数据以饼图的形式展示出来，方便直观查看各项任务数据的占比情况等。
+    private View settingView;
+
     // 定义一个静态的整数数组，用于存储一系列颜色值，这些颜色值会被分配给饼图中的各个扇形，
     // 以实现不同扇形用不同颜色区分，方便可视化展示不同的任务分类等情况。
     public static final int[] colors = new int[]{Color.rgb(65, 105, 225), Color.rgb(255, 0, 255), Color.rgb(255, 20, 147),
@@ -100,13 +100,12 @@ public class FragmentData extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // 使用LayoutInflater根据给定的布局资源文件（R.layout.fragment_data）创建对应的视图，
         // 传入父视图容器（container）以及是否立即附加到父视图的参数（这里为false，表示先不附加），
         // 并将创建好的视图赋值给view变量，这个视图就是该Fragment要展示的UI界面内容，
         // 后续会在此基础上进行视图组件查找、数据绑定等操作来完善Fragment的展示逻辑。
-        View view = inflater.inflate(R.layout.fragment_data, container, false);
+        settingView = inflater.inflate(R.layout.fragment_data, container, false);
 
         // 获取所在Activity的Intent对象，Intent常用于在组件间传递数据，
         // 这里可能是获取启动该Activity时传递过来的数据，比如用户ID等信息，以便后续使用。
@@ -130,7 +129,7 @@ public class FragmentData extends Fragment {
         // 从刚才创建的视图（view）中查找ID为"pieview"的PieView组件，
         // 找到后赋值给pieView变量，方便后续对该饼图组件进行数据设置、点击事件监听等操作，
         // 使其能够正确展示任务数据以及响应点击交互等行为。
-        pieView = view.findViewById(R.id.pieview);
+        pieView = settingView.findViewById(R.id.pieview);
         // 调用convert方法，传入获取到的任务列表（tasks），用于将任务数据转换为适合PieView展示的格式（PieItemBean列表形式），
         // 并设置到PieView中进行展示，比如计算每个任务占总任务时间的百分比等数据转换操作在该方法中进行。
         convert(tasks);
@@ -145,7 +144,7 @@ public class FragmentData extends Fragment {
             }
         });
 
-        return view;
+        return settingView;
     }
 
     /**

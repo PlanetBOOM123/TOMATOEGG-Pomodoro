@@ -25,6 +25,7 @@ public class UserDao {
         db.execSQL(insert_sql, obj);
         db.close();
     }
+
     //全表查询用户
     public List<UserBean> query() {
 

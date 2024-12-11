@@ -8,17 +8,11 @@
     android:orientation="vertical"
     android:background="@color/white1"
     android:layout_height="wrap_content">
-    <!--    <EditText-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/time"-->
-<!--        android:inputType="numberSigned"-->
-<!--        android:hint="请输入专注时长"/>-->
     <EditText
         android:id="@+id/task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入待办事项"
+        android:hint="请输入主题"
         android:inputType="text" />
 
     <SeekBar

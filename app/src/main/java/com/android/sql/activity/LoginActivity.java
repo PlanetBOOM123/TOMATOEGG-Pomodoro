@@ -15,120 +15,149 @@ import com.android.sql.Data;
 import com.android.sql.bean.UserBean;
 import com.android.sql.dao.UserDao;
 
+/**
+ * 登录界面Activity
+ * 实现用户登录功能，包含账号密码输入、登录状态保存、自动登录等功能
+ */
 public class LoginActivity extends AppCompatActivity {
-    private EditText et_account,et_password;
-    private Button btn_login;
-    private UserDao userDao;
+    // 界面控件
+    private EditText et_account,et_password;  // 账号密码输入框
+    private Button btn_login;                 // 登录按钮
+    private UserDao userDao;                  // 用户数据访问对象
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
+        // 初始化界面控件
         initView();
 
-        //登录
+        // 设置登录按钮点击事件
         btn_login.setOnClickListener(v -> btn_login());
-        //跳转到注册
+
+        // 设置注册文本点击事件，跳转到注册界面
         findViewById(R.id.textView2).setOnClickListener(v -> startActivity(new Intent(this,LogonActivity.class)));
-        //忘记密码
+
+        // 设置忘记密码文本点击事件，显示联系管理员提示
         findViewById(R.id.textView3).setOnClickListener(v -> Toast.makeText(this, "请联系管理员微信：", Toast.LENGTH_SHORT).show());
 
-        //恢复登录状态
+        // 检查是否有保存的登录状态，有则自动登录
         getlogin();
     }
 
+    /**
+     * 登录按钮点击处理方法
+     * 验证用户输入并进行登录操作
+     */
     private void btn_login(){
-        //  登录
+        // 获取用户输入的账号和密码
         String account = et_account.getText().toString().trim();
         String password = et_password.getText().toString().trim();
+
+        // 检查输入是否为空
         if (account.isEmpty() || password.isEmpty()){
             Toast.makeText(this, "请输入登录信息", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        // 查询用户信息
         UserBean userBean = userDao.query(account);
         if (userBean == null){
+            // 账号不存在
             Toast.makeText(this, "账号未注册", Toast.LENGTH_SHORT).show();
         }else {
+            // 验证密码
             String pw = userBean.getPassword();
             if (pw.equals(password)){
-                //  登录
+                // 密码正确，登录成功
                 Data.userBean = userBean;
                 Toast.makeText(this, "登陆成功", Toast.LENGTH_SHORT).show();
-                //保存用户密码
+                // 保存登录状态
                 save(account,password);
+                // 跳转到主界面
                 Intent intent = new Intent(this,MainActivity.class);
                 startActivity(intent);
             }else {
+                // 密码错误
                 Toast.makeText(this, "密码输入错误", Toast.LENGTH_SHORT).show();
             }
         }
-//        // 获取用户在密码文本框中输入的密码内容，并转换为字符串类型，用于后续传递给数据库操作方法进行登录验证。
-//        String password = password_text.getText().toString();
-//        // 获取用户在用户名字本框中输入的用户名内容，并转换为字符串类型，用于后续传递给数据库操作方法进行登录验证。
-//        String username = username_text.getText().toString();
-//        // 调用UserDao对象的getUser方法，传入用户名和密码，尝试从数据库中查询该用户并验证密码是否正确，该方法会返回一个用户ID（如果找到匹配用户且密码正确），若未找到或密码错误则返回 -1。
-//        int id = userDao.getUser(new User(username, password));
-//        if (id!= -1) {
-//            // 如果查询到用户且密码正确（即返回的用户ID不等于 -1），弹出一个Toast提示“登录成功”，然后创建一个Intent意图对象，
-//            // 用于启动LoginActivity（这里假设LoginActivity是登录成功后进入的页面，可能需要根据实际业务逻辑完善该页面功能），
-//            // 并且通过putExtra方法将用户ID传递给LoginActivity，以便在后续的页面中可以根据用户ID获取相关用户信息等操作，最后启动该Activity。
-//            Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//            intent.putExtra("user_id", id);
-//            startActivity(intent);
-//        } else {
-//            // 如果未查询到用户或者密码错误（即返回的用户ID为 -1），弹出一个Toast提示“密码错误，登录失败”，告知用户登录失败的原因。
-//            Toast.makeText(this, "密码错误，登录失败", Toast.LENGTH_SHORT).show();
-//        }
     }
 
+    /**
+     * 初始化界面控件和必要的对象
+     */
     private void initView() {
+        // 初始化用户数据访问对象
         userDao = new UserDao(this);
+
+        // 设置透明状态栏和导航栏（仅在Android 4.4及以上版本生效）
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+
+        // 绑定界面控件
         et_account = findViewById(R.id.et_account);
         et_password = findViewById(R.id.et_password);
         btn_login = findViewById(R.id.btn_login);
     }
+
+    /**
+     * 保存登录状态
+     * @param ac 账号
+     * @param pw 密码
+     */
     private void save(String ac,String pw){
+        // 获取SharedPreferences对象
         SharedPreferences sp = getSharedPreferences("login",MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
+        // 清除旧数据
         editor.clear();
+        // 保存新的账号密码
         editor.putString("ac",ac);
         editor.putString("pw",pw);
         editor.commit();
     }
+
+    /**
+     * 检查登录状态并自动登录
+     * 从SharedPreferences中读取保存的账号密码，验证后自动登录
+     */
     private void getlogin(){
+        // 获取SharedPreferences对象
         SharedPreferences sp = getSharedPreferences("login",MODE_PRIVATE);
 
+        // 读取保存的账号密码
         String account = sp.getString("ac","");
         String password = sp.getString("pw","");
 
+        // 如果没有保存的登录信息，直接返回
         if (account.isEmpty() || password.isEmpty()){
             return;
         }
 
+        // 验证登录信息
         UserBean userBean = userDao.query(account);
         if (userBean == null){
             Toast.makeText(this, "异常", Toast.LENGTH_SHORT).show();
         }else {
             String pw = userBean.getPassword();
             if (pw.equals(password)){
-                //  登录
+                // 验证成功，执行自动登录
                 Data.userBean = userBean;
-                //保存用户密码
+                // 更新保存的登录状态
                 save(account,password);
+                // 跳转到主界面
                 Intent intent = new Intent(this,MainActivity.class);
                 startActivity(intent);
             }else {
+                // 密码已变更，登录状态失效
                 Toast.makeText(this, "登录状态过期", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 }

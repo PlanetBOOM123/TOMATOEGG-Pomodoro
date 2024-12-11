@@ -53,8 +53,8 @@ public class TaskDao {
         Cursor cursor = sd.rawQuery(sql, new String[]{user_id + ""});
         if(cursor.moveToFirst()){
             do {
-                String task_name = cursor.getString(cursor.getColumnIndex("task_name"));
-                int task_time=cursor.getInt(cursor.getColumnIndex("task_time"));
+                String task_name = cursor.getString(cursor.getColumnIndexOrThrow("task_name"));
+                int task_time=cursor.getInt(cursor.getColumnIndexOrThrow("task_time"));
                 tasks.add(new Task(task_name,task_time));
             }while(cursor.moveToNext());
             cursor.close();
@@ -84,7 +84,7 @@ public class TaskDao {
         String sql ="select total_time from study_task where user_id=? and task_name=?";
         Cursor cursor = sd.rawQuery(sql, new String[]{String.valueOf(user_id), task_name});
         cursor.moveToFirst();
-        int total_time=cursor.getInt(cursor.getColumnIndex("total_time"));
+        int total_time=cursor.getInt(cursor.getColumnIndexOrThrow("total_time"));
         cursor.close();
         ContentValues cv = new ContentValues();
         cv.put("total_time",total_time+time);
@@ -97,8 +97,8 @@ public class TaskDao {
         List<Task> tasks = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do{
-                String task_name = cursor.getString(cursor.getColumnIndex("task_name"));
-                int total_time = cursor.getInt(cursor.getColumnIndex("total_time"));
+                String task_name = cursor.getString(cursor.getColumnIndexOrThrow("task_name"));
+                int total_time = cursor.getInt(cursor.getColumnIndexOrThrow("total_time"));
                 Task task = new Task();
                 task.setName(task_name);
                 task.setTotal_time(total_time);
