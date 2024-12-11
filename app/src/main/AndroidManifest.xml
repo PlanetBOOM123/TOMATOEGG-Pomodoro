@@ -12,7 +12,8 @@
         android:theme="@style/Theme.MaterialComponents.NoActionBar">
 
 
-        <activity android:name=".IntroductionActivity">
+        <activity android:name=".IntroductionActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,14 +28,18 @@
 
         <activity
             android:name=".LoginActivity"
+            android:exported="false"
             android:label="登录"></activity>
         <activity
             android:name=".MainActivity"
+            android:exported="false"
             android:label="学习" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".LogonActivity"
+            android:exported="false"
             android:label="注册" />
-        <activity android:name=".ClockActivity" />
+        <activity android:name=".ClockActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

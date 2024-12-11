@@ -14,4 +14,8 @@
     <color name="Green">           #4c865d</color>
     <color name="Red2">            #af231c</color>
     <color name="Yellow2">         #fbc241</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="orange">#f45728</color>
+    <color name="w">#f1f3fc</color>
 </resources>

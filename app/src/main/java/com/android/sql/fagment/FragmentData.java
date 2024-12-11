@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.sql.Data;
 import com.android.sql.bean.PieItemBean;
 import com.android.sql.activity.R;
 import com.android.sql.dao.MyDataBaseHelper;
@@ -109,10 +110,11 @@ public class FragmentData extends Fragment {
 
         // 获取所在Activity的Intent对象，Intent常用于在组件间传递数据，
         // 这里可能是获取启动该Activity时传递过来的数据，比如用户ID等信息，以便后续使用。
-        Intent intent = getActivity().getIntent();
+        //Intent intent = getActivity().getIntent();
+        user_id = Data.userBean.getId();
         // 从Intent中获取名为"user_id"的整数类型额外数据，如果不存在该数据，则返回默认值 -1，
         // 并将获取到的值赋值给user_id变量，用于后续从数据库查询该用户相关的任务数据等操作。
-        user_id = intent.getIntExtra("user_id", -1);
+        //user_id = intent.getIntExtra("user_id", -1);
         Log.i("user_id", user_id + "");
 
         // 创建一个可写的SQLite数据库对象，通过MyDataBaseHelper辅助类来获取，

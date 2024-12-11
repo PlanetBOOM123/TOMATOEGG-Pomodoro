@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.android.sql.Data;
 import com.android.sql.DataGenerator;
 import com.android.sql.dao.MyDataBaseHelper;
 import com.android.sql.bean.Task;
@@ -91,10 +92,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 调用initView方法来初始化界面上的一些视图组件，比如设置底部Tab的相关属性、添加监听器等操作，实现底部Tab的功能以及相关页面切换逻辑。
         initView();
 
-        final Intent intent = getIntent();
-        // 从启动该Activity的Intent中获取传递过来的用户ID，如果获取失败（没有传递或者传递的值不符合要求）则默认赋值为 -1，
         // 后续会根据这个用户ID来进行与该用户相关的任务数据操作，确保数据库操作针对的是正确的用户。
-        user_id = intent.getIntExtra("user_id", -1);
+        user_id = Data.userBean.getId();
 
         db = new MyDataBaseHelper(this, "study.db", null, 2);
         SQLiteDatabase sd = db.getWritableDatabase();
